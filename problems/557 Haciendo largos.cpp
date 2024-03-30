@@ -1,24 +1,21 @@
 #include <bits/stdc++.h>
 
 template <typename T> void fastscan(T& number) {
-    // variable to indicate sign of input number
     bool negative = false;
     register int c;
     number = 0;
     // extract current character from buffer
-    c = getchar();
+    c = getchar_unlocked();
     if (c == '-') {
         negative = true;
         // extract the next character from the buffer
-        c = getchar();
+        c = getchar_unlocked();
     }
 
     // Keep on extracting characters if they are integers
-    for (; (c >= '0' && c <= '9'); c = getchar())
+    for (; (c >= '0' && c <= '9'); c = getchar_unlocked())
         number = number * 10 + c - '0';
 
-    // if scanned input has a negative sign, negate the
-    // value of the input number
     if (negative) number *= -1;
 }
 
