@@ -1,22 +1,11 @@
 #include <bits/stdc++.h>
 
 template <typename T> void fastscan(T& number) {
-    bool negative = false;
-    register int c;
     number = 0;
-    // extract current character from buffer
-    c = getchar_unlocked();
-    if (c == '-') {
-        negative = true;
-        // extract the next character from the buffer
-        c = getchar_unlocked();
-    }
-
     // Keep on extracting characters if they are integers
-    for (; (c >= '0' && c <= '9'); c = getchar_unlocked())
+    for (register int c = getchar_unlocked(); (c >= '0' && c <= '9');
+         c = getchar_unlocked())
         number = number * 10 + c - '0';
-
-    if (negative) number *= -1;
 }
 
 int main() {
