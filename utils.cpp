@@ -33,4 +33,6 @@ int main() {
     // Fast IO
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(NULL);
+    // Replace stdin for debugging
+    freopen("in.txt", "r", stdin);
 }
