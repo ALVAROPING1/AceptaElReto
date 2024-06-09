@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 
 // Read positive number
-template <typename T> void fastscan_positive(T& number) {
+template <typename T> inline void fastscan_positive(T& number) {
     number = 0;
     // Keep on extracting characters if they are integers
     for (register int c = getchar_unlocked(); (c >= '0' && c <= '9');
@@ -10,7 +10,7 @@ template <typename T> void fastscan_positive(T& number) {
 }
 
 // Read positive/negative number
-template <typename T> void fastscan(T& number) {
+template <typename T> inline void fastscan(T& number) {
     bool negative = false;
     register int c;
     number = 0;
@@ -27,6 +27,30 @@ template <typename T> void fastscan(T& number) {
         number = number * 10 + c - '0';
 
     if (negative) number *= -1;
+}
+
+// Read an entire line, returning its length
+template <typename T> inline int fastscan_line(T& line) {
+    // Keep on extracting characters if they aren't the line terminator
+    register int i = 0;
+    register int c = getchar_unlocked();
+    if (c == EOF) return 0;
+    for (; c != '\n'; c = getchar_unlocked())
+        line[i++] = c;
+    line[i] = '\0';
+    return i;
+}
+
+template <typename T> inline void fastprint_positive(T number) {
+    char buffer[16];
+    register int i = -1;
+    do {
+        buffer[++i] = (number % 10) + '0';
+        number /= 10;
+    } while (number);
+    while (i >= 0)
+        putchar_unlocked(buffer[i--]);
+    putchar_unlocked('\n');
 }
 
 int main() {
