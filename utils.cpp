@@ -53,6 +53,10 @@ template <typename T> inline void fastprint_positive(T number) {
     putchar_unlocked('\n');
 }
 
+int min(int a, int b) {
+    return a < b ? a : b;
+}
+
 int main() {
     // Fast IO
     std::ios_base::sync_with_stdio(false);
