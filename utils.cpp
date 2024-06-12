@@ -53,7 +53,11 @@ template <typename T> inline void fastprint_positive(T number) {
     putchar_unlocked('\n');
 }
 
-int min(int a, int b) {
+inline int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+inline int min(int a, int b) {
     return a < b ? a : b;
 }
 
