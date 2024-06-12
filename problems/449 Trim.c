@@ -1,9 +1,9 @@
-#include <bits/stdc++.h>
+#include <stdio.h>
 
 // Max line size (+1 for the null terminator byte)
 const int MAX = 81;
 
-template <typename T> inline int fastscan(T& line) {
+inline int fastscan(char* line) {
     register int i = -1;
     register int c = getchar_unlocked();
     if (c == EOF) return 0;
@@ -14,7 +14,7 @@ template <typename T> inline int fastscan(T& line) {
     return i;
 }
 
-template <typename T> inline void fastprint(T number) {
+inline void fastprint(int number) {
     char buffer[16];
     register int i = -1;
     do {
@@ -24,6 +24,10 @@ template <typename T> inline void fastprint(T number) {
     while (i >= 0)
         putchar_unlocked(buffer[i--]);
     putchar_unlocked('\n');
+}
+
+int min(int a, int b) {
+    return a < b ? a : b;
 }
 
 // Dynamic programming table: minimum cost of trimming the word
@@ -48,7 +52,8 @@ int main() {
     char input[MAX];
     short calls[MAX - 1][MAX - 1];
     // Base cases. We can preset them as they are never modified
-    for (unsigned int i = 0; i < MAX - 1; ++i) {
+    unsigned int i;
+    for (i = 0; i < MAX - 1; ++i) {
         calls[i][i] = 1;
     }
     // Read first line
@@ -57,13 +62,14 @@ int main() {
         // We don't need to clear the dynamic table because only positions that
         // have already been calculated/written for this line are read
         // Recursive cases
-        for (int end = 1; end < len; ++end)
-            for (int start = end - 1; start >= 0; --start)
-                calls[end][start] = (input[end] == input[start]
-                                         ? calls[end - 1][start + 1]
-                                         : std::min(calls[end][start + 1],
-                                                    calls[end - 1][start])) +
-                                    1;
+        int end, start;
+        for (end = 1; end < len; ++end)
+            for (start = end - 1; start >= 0; --start)
+                calls[end][start] =
+                    (input[end] == input[start]
+                         ? calls[end - 1][start + 1]
+                         : min(calls[end][start + 1], calls[end - 1][start])) +
+                    1;
         // Print the result and read the next line
         fastprint(calls[len - 1][0]);
         len = fastscan(input);
