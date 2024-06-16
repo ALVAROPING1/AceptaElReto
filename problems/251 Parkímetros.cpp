@@ -1,12 +1,24 @@
 #include <bits/stdc++.h>
 
 // Read positive number
-template <typename T> void fastscan(T& number) {
+template <typename T> inline void fastscan(T& number) {
     number = 0;
     // Keep on extracting characters if they are integers
     for (register int c = getchar_unlocked(); (c >= '0' && c <= '9');
          c = getchar_unlocked())
         number = number * 10 + c - '0';
+}
+
+template <typename T> inline void fastprint(T number) {
+    char buffer[16];
+    register int i = -1;
+    do {
+        buffer[++i] = (number % 10) + '0';
+        number /= 10;
+    } while (number);
+    while (i >= 0)
+        putchar_unlocked(buffer[i--]);
+    putchar_unlocked('\n');
 }
 
 // Max value of a single coin
@@ -15,10 +27,6 @@ const size_t max_value = 200;
 const size_t max_types = 10;
 
 int main() {
-    // Fast IO
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
-
     // Init arrays
     std::array<int, max_value * max_types + 1> values_table;
     std::array<int, max_types> types;
@@ -52,7 +60,7 @@ int main() {
         for (int i = 1; i <= end; ++i)
             total += values_table[i] <= max_coins;
         // Print the result and reset the steps table
-        std::cout << total << "\n";
+        fastprint(total);
     }
     return 0;
 }

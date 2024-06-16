@@ -1,8 +1,11 @@
+#include <stdbool.h>
 #include <stdio.h>
 
 inline void fastscan(int* number) {
     *number = 0;
     register int c = getchar_unlocked();
+    while (c < '0')
+        c = getchar_unlocked();
     // Keep on extracting characters if they are integers
     for (; (c >= '0' && c <= '9'); c = getchar_unlocked())
         *number = *number * 10 + c - '0';
@@ -24,21 +27,24 @@ inline int min(int a, int b) {
     return a < b ? a : b;
 }
 
-inline int solve(int wall, int cell) {
-    return (wall + cell - 1) / cell;
-}
+// Max weight
+#define MAX_WEIGHT 20001
 
 int main() {
     int n;
     fastscan(&n);
     while (n--) {
-        int wall_x, wall_y, cell_x, cell_y;
-        fastscan(&wall_x);
-        fastscan(&wall_y);
-        fastscan(&cell_x);
-        fastscan(&cell_y);
-        fastprint(min(solve(wall_x, cell_x) * solve(wall_y, cell_y),
-                      solve(wall_x, cell_y) * solve(wall_y, cell_x)));
+        int max, t, curr;
+        fastscan(&max);
+        fastscan(&t);
+        int total = 0;
+        bool weights[MAX_WEIGHT] = {false};
+        while (t--) {
+            fastscan(&curr);
+            if (weights[curr]) { ++total; }
+            weights[curr] = !weights[curr];
+        }
+        fastprint(min(max, total));
     }
     return 0;
 }

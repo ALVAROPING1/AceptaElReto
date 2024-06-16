@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-void fastscan(int* number) {
+inline void fastscan(int* number) {
     bool negative = false;
     register int c;
     *number = 0;

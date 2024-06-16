@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void fastscan_positive(int* number) {
+inline void fastscan(int* number) {
     *number = 0;
     register int c = getchar_unlocked();
     // Keep on extracting characters if they are integers
@@ -8,7 +8,7 @@ void fastscan_positive(int* number) {
         *number = *number * 10 + c - '0';
 }
 
-void fastprint(long long number) {
+inline void fastprint(long long number) {
     char buffer[32];
     register int i = -1;
     do {
@@ -22,10 +22,10 @@ void fastprint(long long number) {
 
 int main() {
     int n;
-    fastscan_positive(&n);
+    fastscan(&n);
     while (n--) {
         int height;
-        fastscan_positive(&height);
+        fastscan(&height);
         // Solution to the recurrence relation:
         // a_n = a_n-1 + 2n + (n-1)
         // a_1 = 2

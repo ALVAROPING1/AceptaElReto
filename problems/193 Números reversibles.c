@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-int fastscan(char buffer[]) {
+inline int fastscan(char buffer[]) {
     register int i = -1;
     // Keep on extracting characters if they are integers
     while ((buffer[++i] = getchar_unlocked() - '0') >= 0) {}

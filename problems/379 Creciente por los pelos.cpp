@@ -3,13 +3,31 @@
 // Max vector size (+1 for an extra first element)
 const size_t MAX = 100 + 1;
 
-void solve1(int n) {
+inline void fastscan(short* number) {
+    *number = 0;
+    register int c = getchar_unlocked();
+    // Keep on extracting characters if they are integers
+    for (; (c >= '0' && c <= '9'); c = getchar_unlocked())
+        *number = *number * 10 + c - '0';
+}
+
+inline void fastprint(int number) {
+    char buffer[16];
+    register int i = -1;
+    do {
+        buffer[++i] = (number % 10) + '0';
+        number /= 10;
+    } while (number);
+    while (i >= 0)
+        putchar_unlocked(buffer[i--]);
+}
+
+inline void solve1(int n) {
     std::array<short, MAX> vector;
     int i = n;
     // Read values to array
-    while (i--) {
-        std::cin >> vector[i];
-    }
+    while (i--)
+        fastscan(&vector[i]);
     // Duplicate the leftmost value
     vector[n] = vector[n - 1];
     // For each value starting from the right
@@ -24,14 +42,14 @@ void solve1(int n) {
     }
     // Reset all values to its right to the incremented value
     int j = i - 1;
-    while (--j >= 0) {
+    while (--j >= 0)
         vector[j] = vector[i];
-    }
     // Print the result
-    std::cout << vector[n - 1];
+    fastprint(vector[n - 1]);
     i = n - 1;
     while (i--) {
-        std::cout << ' ' << vector[i];
+        putchar_unlocked(' ');
+        fastprint(vector[i]);
     }
 }
 
@@ -79,16 +97,12 @@ void solve2(int n) {
 }
 
 int main() {
-    // Fast IO
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(NULL);
-
-    int n;
-    std::cin >> n;
+    short n;
+    fastscan(&n);
     while (n > 0) {
         solve1(n);
-        std::cout << '\n';
-        std::cin >> n;
+        putchar_unlocked('\n');
+        fastscan(&n);
     }
     return 0;
 }

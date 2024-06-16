@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-inline void fastscan(int* number) {
+void fastscan(int* number) {
     *number = 0;
     register int c = getchar_unlocked();
     // Keep on extracting characters if they are integers
@@ -8,7 +8,11 @@ inline void fastscan(int* number) {
         *number = *number * 10 + c - '0';
 }
 
-inline void fastprint(int number) {
+void fastprint(int number) {
+    if (number < 0) {
+        putchar_unlocked('-');
+        number *= -1;
+    }
     char buffer[16];
     register int i = -1;
     do {
@@ -20,25 +24,26 @@ inline void fastprint(int number) {
     putchar_unlocked('\n');
 }
 
-inline int min(int a, int b) {
-    return a < b ? a : b;
-}
-
-inline int solve(int wall, int cell) {
-    return (wall + cell - 1) / cell;
+int max(int a, int b) {
+    return a > b ? a : b;
 }
 
 int main() {
     int n;
     fastscan(&n);
     while (n--) {
-        int wall_x, wall_y, cell_x, cell_y;
-        fastscan(&wall_x);
-        fastscan(&wall_y);
-        fastscan(&cell_x);
-        fastscan(&cell_y);
-        fastprint(min(solve(wall_x, cell_x) * solve(wall_y, cell_y),
-                      solve(wall_x, cell_y) * solve(wall_y, cell_x)));
+        int len, curr;
+        fastscan(&len);
+        int max_val = -(1 << 30);
+        int max_pag;
+        fastscan(&max_pag);
+        --len;
+        while (len--) {
+            fastscan(&curr);
+            max_val = max(max_val, max_pag - curr);
+            max_pag = max(max_pag, curr);
+        }
+        fastprint(max_val);
     }
     return 0;
 }

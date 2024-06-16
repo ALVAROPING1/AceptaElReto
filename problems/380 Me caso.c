@@ -20,25 +20,18 @@ inline void fastprint(int number) {
     putchar_unlocked('\n');
 }
 
-inline int min(int a, int b) {
-    return a < b ? a : b;
-}
-
-inline int solve(int wall, int cell) {
-    return (wall + cell - 1) / cell;
-}
-
 int main() {
     int n;
     fastscan(&n);
-    while (n--) {
-        int wall_x, wall_y, cell_x, cell_y;
-        fastscan(&wall_x);
-        fastscan(&wall_y);
-        fastscan(&cell_x);
-        fastscan(&cell_y);
-        fastprint(min(solve(wall_x, cell_x) * solve(wall_y, cell_y),
-                      solve(wall_x, cell_y) * solve(wall_y, cell_x)));
+    while (n != 0) {
+        int total = 0;
+        int curr;
+        while (n--) {
+            fastscan(&curr);
+            total += curr;
+        }
+        fastprint(total);
+        fastscan(&n);
     }
     return 0;
 }

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void fastscan_positive(int* number) {
+inline void fastscan_positive(int* number) {
     *number = 0;
     register int c = getchar_unlocked();
     // Keep on extracting characters if they are integers

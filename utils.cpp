@@ -41,7 +41,11 @@ template <typename T> inline int fastscan_line(T& line) {
     return i;
 }
 
-template <typename T> inline void fastprint_positive(T number) {
+template <typename T> inline void fastprint(T number) {
+    // if (number < 0) {
+    //     putchar_unlocked('-');
+    //     number *= -1;
+    // }
     char buffer[16];
     register int i = -1;
     do {
@@ -59,6 +63,32 @@ inline int max(int a, int b) {
 
 inline int min(int a, int b) {
     return a < b ? a : b;
+}
+
+inline int abs(int x) {
+    return x * ((x >= 0) * 2 - 1);
+}
+
+inline int gcd(int a, int b) {
+    int min, max;
+    if (a > b) {
+        max = a;
+        min = b;
+    } else {
+        max = b;
+        min = a;
+    }
+
+    while (1) {
+        int res = max % min;
+        if (res == 0) return min;
+        max = min;
+        min = res;
+    }
+}
+
+inline int lcm(int a, int b) {
+    return a * b / gcd(a, b);
 }
 
 int main() {
