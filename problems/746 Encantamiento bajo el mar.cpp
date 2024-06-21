@@ -20,17 +20,20 @@ inline void fastprint(int number) {
     putchar_unlocked('\n');
 }
 
+#define CALC_PAIRS(pos)                                                        \
+    vec[pos - 1] == half and even ? curr[0] / 2 : std::min(curr[0], curr[1])
+
 int main() {
-    std::vector<int> vec;
-    vec.reserve(300000);
+    int vec[300000];
     int n, d;
     fastscan(n);
     fastscan(d);
     while (n != 0 or d != 0) {
-        int half = d / 2;
-        bool even = d % 2 == 0;
+        int half = d >> 1;
+        bool even = (d & 1) == 0;
         // Parse the input
-        while (n--) {
+        int i = n;
+        while (i--) {
             int curr;
             // Read the numbers
             fastscan(curr);
@@ -44,11 +47,10 @@ int main() {
             // numbers represent the same distance by checking if their
             // difference is <=1 (as different disntance representations will
             // have a difference of at least 3)
-            if (curr > half) vec.push_back(((d - curr) << 2) | 1);
-            else vec.push_back(curr << 2);
+            vec[i] = curr > half ? ((d - curr) << 2) | 1 : curr << 2;
         }
         // Sort the numbers
-        std::sort(vec.begin(), vec.end());
+        std::sort(vec, &vec[n]);
         // Calculate total pairs
         int total = 0;
         // Array to keep track of how many occurrences of the current distance
@@ -56,7 +58,7 @@ int main() {
         int curr[2] = {0};
         curr[vec[0] & 1] = 1;
         half = half << 2;
-        for (unsigned int i = 1; i < vec.size(); ++i) {
+        for (int i = 1; i < n; ++i) {
             // Compare the current distance with the previous
             // If they are the same, increment the amount of times this distance
             // has been seen
@@ -69,22 +71,16 @@ int main() {
                 // of times the distance has been seen. Otherwise, take the
                 // minimum between the distances below and above half the
                 // distance
-                total += vec[i - 1] == half and even
-                             ? curr[0] / 2
-                             : std::min(curr[0], curr[1]);
+                total += CALC_PAIRS(i);
                 // Reset the array to prepare for the next distance
-                bool sign = vec[i] & 1;
-                curr[sign] = 1;
-                curr[not sign] = 0;
+                curr[vec[i] & 1] = 1;
+                curr[not(vec[i] & 1)] = 0;
             }
         }
         // Add the pairs from the last distance
-        total += vec[vec.size() - 1] == half and even
-                     ? curr[0] / 2
-                     : std::min(curr[0], curr[1]);
+        total += CALC_PAIRS(n);
         // Print the results
         fastprint(total);
-        vec.clear();
         fastscan(n);
         fastscan(d);
     }
