@@ -69,6 +69,10 @@ inline int abs(int x) {
     return x * ((x >= 0) * 2 - 1);
 }
 
+inline char lowercase(char c) {
+    return (c >= 'A' && c <= 'Z') ? c - 'A' + 'a' : c;
+}
+
 inline int gcd(int a, int b) {
     int min, max;
     if (a > b) {
