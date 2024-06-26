@@ -9,6 +9,19 @@ void fastscan(int* number) {
         *number = *number * 10 + c - '0';
 }
 
+void insertion_sort(int arr[], int size) {
+    int i, j;
+    for (i = 1; i < size; ++i) {
+        int temp = arr[i];
+        j = i;
+        while (j > 0 && arr[j - 1] > temp) {
+            arr[j] = arr[j - 1];
+            --j;
+        }
+        arr[j] = temp;
+    }
+}
+
 // Maximum amount of weights
 #define MAX 12
 
@@ -33,9 +46,21 @@ int main() {
             total += weights[i];
         }
         target = total / 2;
+        // Sort the array to iterate through the possibilities from greatest to
+        // smallest. This is a heuristic, it doesn't guarantee a faster
+        // solution, but takes polynomial (O(n²)) time and starts pruning paths
+        // that overshoot the target faster in the exponential (O(2^n)) solution
+        // space
+        insertion_sort(weights, n);
+        // All elements are taken or not taken. Either subgroup must sum the
+        // same. If any values overshoot the target, at least 1 of the groups
+        // won't be able to fulfil the condition and thus it's not possible
+        if (weights[n-1] > target) goto no;
         // Initialize brute force search
-        stack[0].pos = 0;
-        stack[0].current = 0;
+        // Assume the largest weight is always taken taken to halve the search
+        // space (the cases in which the elements are in the opposite group)
+        stack[0].pos = n-2;
+        stack[0].current = weights[n-1];
         i = 0;
         // DFS through all possible combinations of weights taken
         while (1) {
@@ -49,7 +74,7 @@ int main() {
             // If we have already surpased the target value or made a choice for
             // all weights, this path doesn't lead to a solution. Pop the
             // current state and continue with the next
-            if (stack[i].current > target || stack[i].pos == n) {
+            if (stack[i].current > target || stack[i].pos == -1) {
                 --i;
                 if (i < 0) break;
                 continue;
@@ -60,11 +85,12 @@ int main() {
             // Push the successor states to the stack: the next weight can
             // either be taken or not. Push the take choice second so it's
             // processed earlier as it's more likely to reach an end earlier
-            stack[i].pos = pos + 1;
+            stack[i].pos = pos - 1;
             stack[i].current = curr;
-            stack[++i].pos = pos + 1;
+            stack[++i].pos = pos - 1;
             stack[i].current = curr + weights[pos];
         }
+    no:
         putchar_unlocked('N');
         putchar_unlocked('O');
     end:

@@ -95,6 +95,20 @@ inline int lcm(int a, int b) {
     return a * b / gcd(a, b);
 }
 
+// One of the fastest sorting algorithms for very small (~10 elements) list
+void insertion_sort(int arr[], int size) {
+    int i, j;
+    for (i = 1; i < size; ++i) {
+        int temp = arr[i];
+        j = i;
+        while (j > 0 && arr[j - 1] > temp) {
+            arr[j] = arr[j - 1];
+            --j;
+        }
+        arr[j] = temp;
+    }
+}
+
 int main() {
     // Fast IO
     std::ios_base::sync_with_stdio(false);
