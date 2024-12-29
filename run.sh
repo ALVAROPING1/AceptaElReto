@@ -1,7 +1,12 @@
 FLAGS="-Werror -Wall -Wpedantic -g"
 CC="gcc"
 
-FILE=$(compgen -G "problems/$1*")
+if [ "$1" != "file" ]; then
+    FILE=$(compgen -G "problems/$1*")
+else
+    FILE=$2
+fi
+
 EXT="${FILE##*.}"
 
 if [ "$EXT" = "cpp" ]; then
