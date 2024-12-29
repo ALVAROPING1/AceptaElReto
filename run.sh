@@ -12,6 +12,9 @@ EXT="${FILE##*.}"
 if [ "$EXT" = "cpp" ]; then
     FLAGS+=" -std=c++11"
     CC="g++"
+else
+    echo "#define inline" | cat - "$FILE" > program.c
+    FILE="program.c"
 fi
 
 set -e
