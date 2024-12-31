@@ -1,8 +1,9 @@
 FLAGS="-Werror -Wall -Wpedantic -g"
 CC="gcc"
+DIR="problems"
 
 if [ "$1" != "file" ]; then
-    FILE=$(compgen -G "problems/$1*")
+    FILE=$(compgen -G "$DIR/$1*")
 else
     FILE=$2
 fi
