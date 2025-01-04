@@ -74,20 +74,17 @@ inline char lowercase(char c) {
 }
 
 inline int gcd(int a, int b) {
-    int min, max;
     if (a > b) {
-        max = a;
-        min = b;
-    } else {
-        max = b;
-        min = a;
+        int tmp = a;
+        a = b;
+        b = tmp;
     }
 
     while (1) {
-        int res = max % min;
-        if (res == 0) return min;
-        max = min;
-        min = res;
+        int res = b % a;
+        if (res == 0) return a;
+        b = a;
+        a = res;
     }
 }
 
