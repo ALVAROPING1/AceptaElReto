@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 inline void fastscan(int* number) {
     *number = 0;
@@ -35,7 +35,6 @@ inline void fastprint(int number) {
         putchar_unlocked(buffer[i--]);
     putchar_unlocked('\n');
 }
-
 
 int main() {
     int n;
