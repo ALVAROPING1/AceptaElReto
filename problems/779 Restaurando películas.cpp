@@ -27,8 +27,9 @@ int main() {
     int frames, copies;
     fastscan(&frames);
     fastscan(&copies);
+    std::vector<Interval> v;
+    v.reserve(100000);
     while (frames != 0 && copies != 0) {
-        std::vector<Interval> v;
         while (copies--) {
             int k;
             fastscan(&k);
@@ -64,6 +65,7 @@ int main() {
         putchar_unlocked('\n');
         fastscan(&frames);
         fastscan(&copies);
+        v.clear();
     }
     return 0;
 }
