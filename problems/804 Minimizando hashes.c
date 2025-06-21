@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -23,28 +22,36 @@ inline void fastprint(int number) {
 }
 
 typedef struct Node {
-    struct Node* child[2];
+    int child[2];
     int frequency;
 } Node;
 
 int main() {
     int n;
     fastscan(&n);
+    // Use a memory pool to store the tree nodes, so that we can easily reuse
+    // the memory and don't need to be allocating memory on each new node
+    // The size was manually obtained through trial and error: too little
+    // results in RTE while too much results in MLE. From there binary search
+    // was used to get as close to RTE as possible
+    // The stack isn't big enough for 18MB smh. >:(
+    Node* mem = (Node*) malloc(1516000 * sizeof(Node));
+    int size = 0;
     while (n != 0) {
         // Maintain a binary tree with the sequences seen
-        Node root;
-        root.frequency = 0;
-        root.child[0] = NULL;
-        root.child[1] = NULL;
+        mem[size].frequency = 0;
+        mem[size].child[0] = 0;
+        mem[size].child[1] = 0;
+        ++size;
         int result = 0;
         while (n--) {
-            Node* curr = &root;
+            int curr = 0;
             char c;
             while ((c = getchar_unlocked()) != '\n') { // For each hash
                 // Convert the hash to a binary string
                 c -= 'a';
                 // Update the amount of characters required
-                switch (curr->frequency) {
+                switch (mem[curr].frequency) {
                 // We already saw prefix once, so we need to type 2 extra
                 // characters for desambiguation (once for the current hash and
                 // once for the first time we saw this prefix)
@@ -61,19 +68,19 @@ int main() {
                 }
                 // Append the current character to the tree and update the
                 // frequency of the path
-                ++curr->frequency;
-                if (curr->child[(int) c] == NULL) {
-                    Node* next = (Node*) malloc(sizeof(Node));
-                    next->frequency = 0;
-                    next->child[0] = NULL;
-                    next->child[1] = NULL;
-                    curr->child[(int) c] = next;
+                ++mem[curr].frequency;
+                if (mem[curr].child[(int) c] == 0) {
+                    mem[size].frequency = 0;
+                    mem[size].child[0] = 0;
+                    mem[size].child[1] = 0;
+                    mem[curr].child[(int) c] = size++;
                 }
-                curr = curr->child[(int) c];
+                curr = mem[curr].child[(int) c];
             }
-            curr->frequency++;
+            ++mem[curr].frequency;
         }
         fastprint(result);
+        size = 0;
         fastscan(&n);
     }
     return 0;
