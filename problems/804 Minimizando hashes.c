@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 inline void fastscan(int* number) {
     *number = 0;
@@ -26,16 +25,17 @@ typedef struct Node {
     int frequency;
 } Node;
 
+// Use a memory pool to store the tree nodes, so that we can easily reuse
+// the memory and don't need to be allocating memory on each new node
+// The size was manually obtained through trial and error: too little
+// results in RTE while too much results in MLE. From there binary search
+// was used to get as close to RTE as possible
+// The stack isn't big enough for 18MB smh. >:(
+Node mem[1527050];
+
 int main() {
     int n;
     fastscan(&n);
-    // Use a memory pool to store the tree nodes, so that we can easily reuse
-    // the memory and don't need to be allocating memory on each new node
-    // The size was manually obtained through trial and error: too little
-    // results in RTE while too much results in MLE. From there binary search
-    // was used to get as close to RTE as possible
-    // The stack isn't big enough for 18MB smh. >:(
-    Node* mem = (Node*) malloc(1516000 * sizeof(Node));
     int size = 0;
     while (n != 0) {
         // Maintain a binary tree with the sequences seen
