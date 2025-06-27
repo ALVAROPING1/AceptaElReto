@@ -106,6 +106,17 @@ void insertion_sort(int arr[], int size) {
     }
 }
 
+// Clears a priority queue without freeing the memory
+template <class T, class S, class C>
+void clearpq(std::priority_queue<T, S, C>& q) {
+    struct HackedQueue : private std::priority_queue<T, S, C> {
+        static S& Container(std::priority_queue<T, S, C>& q) {
+            return q.*&HackedQueue::c;
+        }
+    };
+    HackedQueue::Container(q).clear();
+}
+
 int main() {
     // Fast IO
     std::ios_base::sync_with_stdio(false);
