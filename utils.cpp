@@ -117,6 +117,34 @@ void clearpq(std::priority_queue<T, S, C>& q) {
     HackedQueue::Container(q).clear();
 }
 
+// Queue implementation based on a circular buffer on static memory
+template <typename T> class Queue {
+    const static constexpr int SIZE = 1000;
+    T q_[SIZE];
+    int start_ = 0, end_ = 0;
+
+  public:
+    Queue() {}
+    void clear() {
+        start_ = end_ = 0;
+    }
+
+    void push(T x) {
+        q_[end_] = x;
+        end_ = (end_ + 1) % SIZE;
+    }
+
+    T pop() {
+        T res = q_[start_];
+        start_ = (start_ + 1) % SIZE;
+        return res;
+    }
+
+    bool empty() {
+        return start_ == end_;
+    }
+};
+
 int main() {
     // Fast IO
     std::ios_base::sync_with_stdio(false);
