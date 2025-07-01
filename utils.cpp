@@ -57,6 +57,26 @@ template <typename T> inline void fastprint(T number) {
     putchar_unlocked('\n');
 }
 
+inline void fastprint_decimal(float number) {
+    char buffer[16];
+    int integer = number;
+    float decimal = number - integer;
+    register int i = -1;
+    do {
+        buffer[++i] = (integer % 10) + '0';
+        integer /= 10;
+    } while (integer);
+    while (i >= 0)
+        putchar_unlocked(buffer[i--]);
+    if (decimal == 0) return;
+    putchar_unlocked('.');
+    sprintf(buffer, "%g", decimal);
+    i = 2;
+    do {
+        putchar_unlocked(buffer[i]);
+    } while (buffer[++i] != '\0');
+}
+
 inline int max(int a, int b) {
     return a > b ? a : b;
 }
