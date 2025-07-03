@@ -2,20 +2,20 @@
 
 // Read positive number
 template <typename T> inline void fastscan_positive(T& number) {
+    register int c = getchar_unlocked();
     number = 0;
     // Keep on extracting characters if they are integers
-    for (register int c = getchar_unlocked(); (c >= '0' && c <= '9');
-         c = getchar_unlocked())
+    do {
         number = number * 10 + c - '0';
+    } while ((c = getchar_unlocked()) >= '0');
 }
 
 // Read positive/negative number
 template <typename T> inline void fastscan(T& number) {
     bool negative = false;
-    register int c;
     number = 0;
     // Extract current character from buffer
-    c = getchar_unlocked();
+    register int c = getchar_unlocked();
     if (c == '-') {
         negative = true;
         // Extract the next character from the buffer
@@ -23,8 +23,9 @@ template <typename T> inline void fastscan(T& number) {
     }
 
     // Keep on extracting characters if they are integers
-    for (; (c >= '0' && c <= '9'); c = getchar_unlocked())
+    do {
         number = number * 10 + c - '0';
+    } while ((c = getchar_unlocked()) >= '0');
 
     if (negative) number *= -1;
 }
