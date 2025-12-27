@@ -23,8 +23,8 @@ inline void fastprint(long long number) {
 int main() {
     int n;
     fastscan(&n);
+    std::unordered_map<int, int> colors;
     while (n != 0) {
-        std::unordered_map<int, int> colors;
         long long res = 0;
         for (int i = 0; i < n; ++i) {
             int x;
@@ -37,6 +37,7 @@ int main() {
         }
         fastprint(res);
         fastscan(&n);
+        colors.clear();
     }
     return 0;
 }
