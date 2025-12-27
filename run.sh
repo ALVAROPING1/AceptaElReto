@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FLAGS="-Werror -Wall -Wpedantic -g"
+FLAGS="-Werror -Wall -Wpedantic -g -lm"
 CC="gcc"
 DIR="problems"
 
