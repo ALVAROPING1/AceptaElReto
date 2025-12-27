@@ -34,21 +34,26 @@ int capacity[MAX][MAX];
 
 std::vector<int> adj[MAX];
 
+const constexpr int q_size = 1024 * 2;
+std::pair<int, int> q[q_size];
+
 int bfs(int s, int t, int parent[MAX]) {
     std::fill(&parent[0], &parent[n], -1);
     parent[s] = -2;
-    std::queue<std::pair<int, int>> q;
-    q.push({s, INF});
-    while (!q.empty()) {
-        int cur = q.front().first;
-        int flow = q.front().second;
-        q.pop();
+    int head = 1;
+    int tail = 0;
+    q[tail] = {s, INF};
+    while (tail != head) {
+        int cur = q[tail].first;
+        int flow = q[tail].second;
+        tail = (tail + 1) % q_size;
         for (int next : adj[cur]) {
             if (parent[next] == -1 && capacity[cur][next]) {
                 parent[next] = cur;
                 int new_flow = std::min(flow, capacity[cur][next]);
                 if (next == t) return new_flow;
-                q.push({next, new_flow});
+                q[head] = {next, new_flow};
+                head = (head + 1) % q_size;
             }
         }
     }
