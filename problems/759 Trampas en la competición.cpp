@@ -30,7 +30,7 @@ const int MAX_EDGES = 300000;
 int n;
 char color[MAX];
 int equivalent[MAX];
-int size[MAX];
+int rank[MAX];
 std::vector<int> graph[MAX];
 
 struct arc {
@@ -39,21 +39,20 @@ struct arc {
 };
 
 inline int findSet(int i) {
-    while (equivalent[i] != i) {
-        equivalent[i] = equivalent[equivalent[i]];
-        i = equivalent[i];
+    if (equivalent[i] != i) {
+        equivalent[i] = findSet(equivalent[i]);
     }
-    return i;
+    return equivalent[i];
 }
 
-inline void union_set(int i, int j) {
-    if (size[i] < size[j]) {
-        equivalent[i] = j;
-        size[j] += size[i];
-    } else {
-        equivalent[j] = i;
-        size[i] += size[j];
+inline void union_set(int a, int b) {
+    if (rank[a] < rank[b]) {
+        int tmp = a;
+        a = b;
+        b = tmp;
     }
+    equivalent[b] = a;
+    rank[a] += rank[a] == rank[b];
 }
 
 inline bool dfs(int v) {
@@ -83,7 +82,7 @@ int main() {
             graph[i].clear();
             color[i] = 0;
             equivalent[i] = i;
-            size[i] = 1;
+            rank[i] = 0;
         }
         int e = 0;
         int c;
