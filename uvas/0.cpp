@@ -27,7 +27,7 @@ template<typename T> inline int lcm(T a, T b) { return a * b / gcd(a, b); }
 inline vector<bool> primes(const int n) {
     vector<bool> nums(n, true); nums[0] = false; nums[1] = false;
     for (int i = 2; i*i < n; ++i) if (nums[i])
-        for (int j = i*i; j < n; j += i) nums[j] = false;
+        for (int j = i*2; j < n; j += i) nums[j] = false;
     return nums;
 }
 template<typename T, typename U> inline U sum(vector<T> nums) {
