@@ -166,6 +166,33 @@ template <typename T> class Queue {
     }
 };
 
+/// C++17's std::string_view adapted for use as hash map key in C++11
+///
+/// Implementation from GCC, see:
+/// <https://github.com/gcc-mirror/gcc/blob/master/libstdc%2B%2B-v3/include/std/string_view#L111>
+struct string_view {
+    size_t len;
+    const char* data;
+
+    constexpr string_view(const char* data, size_t len) noexcept
+        : len{len}, data{data} {}
+
+    constexpr bool operator==(string_view x) const noexcept {
+        return this->len == x.len &&
+               std::char_traits<char>::compare(this->data, x.data, x.len) == 0;
+    }
+};
+
+namespace std {
+template <> struct hash<string_view> : public __hash_base<size_t, string_view> {
+    size_t operator()(const string_view& str) const noexcept {
+        return _Hash_impl::hash(str.data, str.len);
+    }
+};
+
+template <> struct __is_fast_hash<hash<string_view>> : false_type {};
+} // namespace std
+
 int main() {
     // Fast IO
     std::ios_base::sync_with_stdio(false);
