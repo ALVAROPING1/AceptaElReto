@@ -46,7 +46,9 @@ bool cw(pt a, pt b, pt c) {
     return orientation(a, b, c) < 0;
 }
 
-double pow2 (double x) { return x * x; }
+double pow2(double x) {
+    return x * x;
+}
 
 int convex_hull(int size, pt a[], pt st[]) {
     pt p0 = *std::min_element(&a[0], &a[size]);
