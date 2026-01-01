@@ -75,9 +75,9 @@ inline void solve1() {
 
 // Cache for the factorial of each number and its modular inverse
 // fac[x] = x! mod P
-long long fac[MAX];
+int fac[MAX];
 // fac[x] = (x!)⁻¹ mod P
-long long inv[MAX];
+int inv[MAX];
 
 // Binary exponentiation modulo M
 inline int exponential(long long x, long long n, long long m) {
@@ -96,7 +96,7 @@ inline void factorial() {
     fac[0] = 1;
     int i;
     for (i = 1; i < MAX; i++) {
-        fac[i] = fac[i - 1] * i % mod;
+        fac[i] = ((long long)fac[i - 1]) * i % mod;
     }
 }
 
@@ -115,12 +115,12 @@ inline void inverses() {
         //            = ((n-1)!)⁻¹ * n⁻¹ * n
         //            = ((n-1)! * n)⁻¹ * n
         //            = (n!)⁻¹ * n (mod p)
-        inv[i - 1] = inv[i] * i % mod;
+        inv[i - 1] = ((long long)inv[i]) * i % mod;
     }
 }
 
 inline int binomial_coefficient(int n, int k) {
-    return fac[n] * inv[k] % mod * inv[n - k] % mod;
+    return ((long long)fac[n]) * inv[k] % mod * inv[n - k] % mod;
 }
 
 inline void precompute() {
